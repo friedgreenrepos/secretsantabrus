@@ -8,7 +8,8 @@ let transporter: Transporter | null = null;
 
 function getTransporter(): Transporter | null {
   const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
+  // Google shows app passwords as "abcd efgh ijkl mnop"; the spaces are not part of it.
+  const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
   if (!user || !pass) return null;
   transporter ??= nodemailer.createTransport({ service: "gmail", auth: { user, pass } });
   return transporter;
