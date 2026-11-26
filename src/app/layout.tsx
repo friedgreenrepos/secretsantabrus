@@ -9,8 +9,17 @@ const body = Geist({ variable: "--font-body", subsets: ["latin"] });
 const display = Fraunces({ variable: "--font-display", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  // Makes the og:image URLs absolute, which WhatsApp & co. require.
+  metadataBase: new URL(
+    process.env.APP_URL ??
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : "http://localhost:3000"),
+  ),
   title: "Secret Santabrus",
-  description: "Organizza il Secret Santa con i tuoi amici, senza fogliettini.",
+  description: "Il Secret Santa dei Calabrus: crea il gruppo, condividi il codice, aspetta l'estrazione.",
+  openGraph: { siteName: "Secret Santabrus", locale: "it_IT", type: "website" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

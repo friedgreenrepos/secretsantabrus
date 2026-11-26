@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { CopyButton } from "@/components/CopyButton";
 import { EventDetails, ParticipantList } from "@/components/EventDetails";
+import { formatDateIt, formatEuro } from "@/lib/dates";
 import { appUrl } from "@/lib/mail";
 import { formatCode } from "@/lib/random";
 import { adminCookieName, getGroupByCode, listParticipants } from "@/lib/service";
@@ -11,7 +12,12 @@ import { JoinForm } from "./JoinForm";
 
 export async function generateMetadata(props: PageProps<"/g/[code]">): Promise<Metadata> {
   const group = await getGroupByCode((await props.params).code);
-  return { title: group ? `${group.name} · Secret Santabrus` : "Secret Santabrus" };
+  if (!group) return { title: "Secret Santabrus" };
+  const title = `${group.name} · Secret Santabrus`;
+  const description = group.drawnAt
+    ? "L'estrazione è già stata fatta."
+    : `Budget ${formatEuro(group.budget)} · estrazione ${formatDateIt(group.drawDate)}. Unisciti al Secret Santa!`;
+  return { title, description, openGraph: { title, description }, twitter: { card: "summary_large_image" } };
 }
 
 export default async function GroupPage(props: PageProps<"/g/[code]">) {
