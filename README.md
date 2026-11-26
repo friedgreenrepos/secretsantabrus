@@ -49,7 +49,7 @@ Trigger the cron locally: `curl -H "Authorization: Bearer change-me" localhost:3
 
 | Name | Value |
 | --- | --- |
-| `DATABASE_URL` | set automatically by the Neon integration (use the pooled URL) |
+| `DATABASE_URL` | set automatically by the Neon integration; migrations run on every build |
 | `GMAIL_USER` | `secretsantabrus@gmail.com` |
 | `GMAIL_APP_PASSWORD` | Google app password (16 chars) |
 | `CRON_SECRET` | long random string; Vercel Cron sends it automatically |
